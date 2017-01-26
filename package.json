@@ -1,0 +1,26 @@
+{
+  "name": "snappin",
+  "version": "1.0.0",
+  "description": "Take screenshots of a website at specified intervals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "screenshot",
+    "timelapse"
+  ],
+  "author": "Pat cavit <npm@patcavit.com>",
+  "license": "MIT",
+  "dependencies": {
+    "meow": "^3.7.0",
+    "ms": "^0.7.2",
+    "npm-which": "^3.0.1",
+    "npmlog": "^4.0.2",
+    "pageres": "^4.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.14.1",
+    "eslint-config-arenanet": "^3.1.0"
+  }
+}
