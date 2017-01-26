@@ -1,10 +1,12 @@
 "use strict";
 
-var path = require("path"),
+var fs   = require("fs"),
+    path = require("path"),
 
     ms      = require("ms"),
+    log     = require("npmlog"),
+    same    = require("looks-same"),
     Pageres = require("pageres"),
-    log  = require("npmlog"),
     
     cli     = require("meow")(`
         Usage
@@ -33,7 +35,9 @@ var path = require("path"),
     
     pageres = new Pageres({
         filename : "<%= date %> - <%= time %>"
-    });
+    }),
+    
+    previous;
 
 log.level = cli.flags.level;
 
@@ -52,10 +56,21 @@ pageres
 function capture() {
     log.http(`Capturing ${cli.input[0]}`);
 
-    pageres.run().then(() => {
-        log.info(`Captured`);
+    pageres.run().then((args) => {
+        var current = path.resolve(cli.flags.dir, args[0].filename);
         
-        setTimeout(capture, ms(cli.flags.time));
+        log.info(`Captured`);
+
+        if(previous && fs.readFileSync(previous).equals(fs.readFileSync(current))) {
+            log.warn("Duplicate capture, discarding");
+            
+            // TODO: Not working
+            fs.unlinkSync(current);
+        }
+        
+        previous = current;
+
+        return setTimeout(capture, ms(cli.flags.wait));
     });
 }
 
