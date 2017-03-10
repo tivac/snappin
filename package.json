@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Take screenshots of a website at specified intervals",
   "main": "index.js",
+  "bin": "cli.js",
   "keywords": [
     "screenshot",
     "timelapse"
