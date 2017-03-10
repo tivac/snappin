@@ -7,7 +7,7 @@
     "screenshot",
     "timelapse"
   ],
-  "author": "Pat cavit <npm@patcavit.com>",
+  "author": "Pat Cavit <npm@patcavit.com>",
   "license": "MIT",
   "dependencies": {
     "looks-same": "^3.2.0",
