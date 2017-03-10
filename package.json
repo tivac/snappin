@@ -1,6 +1,6 @@
 {
   "name": "snappin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Take screenshots of a website at specified intervals",
   "main": "index.js",
   "keywords": [
