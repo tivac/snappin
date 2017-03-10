@@ -34,12 +34,12 @@ var fs   = require("fs"),
             dir   : "./snaps",
             wait  : "5s",
             level : "info",
-            delay : "1",
+            delay : "1s",
             res   : "1366x768"
         }
     }),
     
-    previous;
+    files, previous;
 
 log.level = cli.flags.level;
 
@@ -51,6 +51,11 @@ if(!cli.input.length) {
 
 log.verbose(`Saving shots to: ${cli.flags.dir}`);
 
+// Convert some cli args where it makes sense
+cli.flags.dir   = path.resolve(cli.flags.dir);
+cli.flags.wait  = ms(cli.flags.wait);
+cli.flags.delay = Math.floor(ms(cli.flags.delay) / 1000);
+
 function capture() {
     log.http(`Capturing ${cli.input[0]}`);
 
@@ -59,14 +64,15 @@ function capture() {
         delay    : cli.delay
     })
     .src(cli.input[0], [ cli.flags.res ])
-    .dest(path.resolve(cli.flags.dir))
+    .dest(cli.flags.dir)
     .run()
     .then((args) => {
-        var current = path.resolve(cli.flags.dir, args[0].filename);
-        
-        log.info(`Captured ${args[0].filename}`);
+        var capped  = args[0].filename,
+            current = path.join(cli.flags.dir, capped);
 
         if(!previous) {
+            log.info(`Captured ${capped}`);
+
             previous = current;
 
             return next();
@@ -81,6 +87,8 @@ function capture() {
                 }
                 
                 if(!equal) {
+                    log.info(`Captured ${capped}`);
+
                     previous = current;
 
                     return next();
@@ -102,7 +110,25 @@ function capture() {
 }
 
 function next() {
-    return setTimeout(capture, ms(cli.flags.wait));
+    return setTimeout(capture, cli.flags.wait);
+}
+
+// Determine most recent file to use for comparisons
+files = fs.readdirSync(cli.flags.dir)
+    .map((file) => {
+        file = path.join(cli.flags.dir, file);
+        
+        return {
+            file,
+            time : fs.statSync(file).mtime
+        };
+    })
+    .sort((a, b) =>
+        a.time - b.time
+    );
+
+if(files.length) {
+    previous = files.pop().file;
 }
 
 if(cli.flags.wait) {
