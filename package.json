@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "description": "Take screenshots of a website at specified intervals",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": "cli.js",
   "keywords": [
     "screenshot",
     "timelapse"
@@ -11,12 +11,12 @@
   "author": "Pat Cavit <npm@patcavit.com>",
   "license": "MIT",
   "dependencies": {
+    "electron-screenshot-service": "^4.0.3",
+    "humanize-ms": "^1.2.0",
     "looks-same": "^3.2.0",
     "meow": "^3.7.0",
-    "ms": "^0.7.2",
-    "npm-which": "^3.0.1",
     "npmlog": "^4.0.2",
-    "pageres": "^4.3.0"
+    "timestring": "^3.2.0"
   },
   "devDependencies": {
     "eslint": "^3.14.1",
