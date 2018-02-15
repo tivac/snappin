@@ -6,6 +6,9 @@ snappin [![NPM Version](https://img.shields.io/npm/v/snappin.svg)](https://www.n
 
 Take timed screenshots while developing your website.
 
+
+## :warning: :zap: :warning: This project is UNMAINTAINED :warning: :zap: :warning:
+
 ## Install
 
 ```bash
